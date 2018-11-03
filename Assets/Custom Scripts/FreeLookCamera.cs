@@ -7,23 +7,19 @@ public class FreeLookCamera : MonoBehaviour {
     [SerializeField] float cameraMoveSpeed = 120f;
     [SerializeField] float clampAngle = 80f;
     [SerializeField] float inputSensitivity = 150f;
-    [SerializeField] float camDistanceXtoPlayer;
-    [SerializeField] float camDistanceYtoPlayer;
-    [SerializeField] float camDistanceZtoPlayer;
-    [SerializeField] float mouseX;
-    [SerializeField] float mouseY;
-    [SerializeField] float finalInputX;
-    [SerializeField] float finalInputZ;
-    [SerializeField] float smoothX;
-    [SerializeField] float smoothY;
-
-    [SerializeField] GameObject cameraObject;
-    [SerializeField] GameObject playerObject;
+    [SerializeField] float minFov = 15f;
+    [SerializeField] float maxFov = 90f;
+    [SerializeField] float fovSensitivity = 10f;
     [SerializeField] GameObject cameraFollowObject;
 
     Vector3 followPosition;
     private float rotationY = 0f;
     private float rotationX = 0f;
+    private float mouseX;
+    private float mouseY;
+    private float finalInputX;
+    private float finalInputZ;
+    bool rightClicked = false;
 
 
     // Use this for initialization
@@ -36,6 +32,24 @@ public class FreeLookCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetMouseButtonDown(1))
+        {
+            rightClicked = true;
+            //Cursor.visible = false;
+        }
+        if(Input.GetMouseButtonUp(1))
+        {
+            rightClicked = false;
+            //Cursor.visible = true;
+        }
+        var fov = Camera.main.fieldOfView;
+        fov -= Input.GetAxis("Mouse ScrollWheel") * fovSensitivity;
+        fov = Mathf.Clamp(fov, minFov, maxFov);
+        Camera.main.fieldOfView = fov;
+    }
+
+    void LateUpdate()
+    {
         // set up controller input
         float inputX = Input.GetAxis("RightStickHorizontal");
         float inputZ = Input.GetAxis("RightStickVertical");
@@ -43,23 +57,17 @@ public class FreeLookCamera : MonoBehaviour {
         mouseY = Input.GetAxis("Mouse Y");
         finalInputX = inputX - mouseX;
         finalInputZ = inputZ - mouseY;
-        if (Input.GetMouseButtonDown(0))
+        rotationY += finalInputX * inputSensitivity * Time.deltaTime;
+        rotationX += finalInputZ * inputSensitivity * Time.deltaTime;
+
+        rotationX = Mathf.Clamp(rotationX, -clampAngle, +clampAngle);
+
+        if (rightClicked)
         {
-            rotationY += finalInputX * inputSensitivity * Time.deltaTime;
-            rotationX += finalInputZ * inputSensitivity * Time.deltaTime;
-
-            rotationX = Mathf.Clamp(rotationX, -clampAngle, +clampAngle);
-
-            Quaternion localRotation = Quaternion.Euler(rotationX, rotationY, 0f);
-            transform.rotation = localRotation;
+            transform.RotateAround(cameraFollowObject.transform.position, Vector3.up, mouseX * 10f);
+            //transform.rotation = localRotation;
         }
-
-    }
-
-    void LateUpdate()
-    {
-            CameraUpdater();
-
+        CameraUpdater();
     }
 
     void CameraUpdater()

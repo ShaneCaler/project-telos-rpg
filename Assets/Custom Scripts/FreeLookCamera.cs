@@ -35,12 +35,12 @@ public class FreeLookCamera : MonoBehaviour {
         if (Input.GetMouseButtonDown(1))
         {
             rightClicked = true;
-            //Cursor.visible = false;
+            Cursor.visible = false;
         }
         if(Input.GetMouseButtonUp(1))
         {
             rightClicked = false;
-            //Cursor.visible = true;
+            Cursor.visible = true;
         }
         var fov = Camera.main.fieldOfView;
         fov -= Input.GetAxis("Mouse ScrollWheel") * fovSensitivity;

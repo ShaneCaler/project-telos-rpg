@@ -7,7 +7,9 @@ Assets/PostProcessing/
 Assets/3DForge/
 Assets/Standard Assets/
 Assets/PBR_Customized_Soldier/
-
+Assets/Enemy/
+Assets/Player
+Assets/Prefabs/RedEnemy.prefab
 # Visual Studio cache directory
 .vs/
 
@@ -49,3 +51,6 @@ Assets/Standard Assets.meta
 Assets/PostProcessing.meta
 Assets/Player/Player 1.prefab
 Assets/Player/Player 1.prefab.meta
+Assets/Sci_Fi_Armors_2.meta
+Assets/Prefabs/RedEnemy.prefab.meta
+Assets/Enemy.meta

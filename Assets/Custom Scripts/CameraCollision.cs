@@ -7,22 +7,43 @@ public class CameraCollision : MonoBehaviour {
     [SerializeField] float minDistance = 1f;
     [SerializeField] float maxDistance = 4f;
     [SerializeField] float smooth = 10f;
-    [SerializeField] Vector3 dollyDirAdjusted;
     [SerializeField] float distance;
+    [SerializeField] Transform offset;
 
     Vector3 dollyDir;
-
+    bool inCTMview = false;
     void Awake()
     {
-        dollyDirAdjusted = transform.localPosition.normalized;
         distance = transform.localPosition.magnitude;
     }
     // Update is called once per frame
-    void Update () {
-        Vector3 desiredCameraPos = transform.parent.TransformPoint(dollyDir * maxDistance);
+    void FixedUpdate ()
+    {
+
+        if (Input.GetButtonDown("Switch View"))
+        {
+            inCTMview = !inCTMview;
+        }
+
+        if (inCTMview)
+        {
+            ProcessView(offset);
+        }
+        else
+        {
+            ProcessView(transform.parent);
+
+        }
+
+    }
+
+    private void ProcessView(Transform camOffset)
+    {
+        Vector3 desiredCameraPos = camOffset.TransformPoint(dollyDir * maxDistance);
         RaycastHit hit;
 
-        if (Physics.Linecast(transform.parent.position, desiredCameraPos, out hit)){
+        if (Physics.Linecast(camOffset.position, desiredCameraPos, out hit))
+        {
             distance = Mathf.Clamp((hit.distance * .5f), minDistance, maxDistance);
         }
         else
@@ -30,6 +51,7 @@ public class CameraCollision : MonoBehaviour {
             distance = maxDistance;
         }
 
-        transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * distance, Time.deltaTime * smooth);
-	}
+        transform.localPosition = Vector3.Lerp(camOffset.localPosition, dollyDir * distance, Time.deltaTime * smooth);
+        transform.localRotation = camOffset.localRotation;
+    }
 }

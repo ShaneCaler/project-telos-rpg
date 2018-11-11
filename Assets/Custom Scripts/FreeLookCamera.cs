@@ -65,7 +65,7 @@ public class FreeLookCamera : MonoBehaviour {
         if (rightClicked)
         {
             transform.RotateAround(cameraFollowObject.transform.position, Vector3.up, mouseX * 10f);
-            //transform.rotation = localRotation;
+            transform.RotateAround(cameraFollowObject.transform.position, Vector3.up, mouseY * 10f);
         }
         CameraUpdater();
     }

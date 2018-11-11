@@ -8,8 +8,11 @@ Assets/3DForge/
 Assets/Standard Assets/
 Assets/PBR_Customized_Soldier/
 Assets/Enemy/
-Assets/Player
+Assets/Player/
 Assets/Prefabs/RedEnemy.prefab
+Assets/SkySerie Freebie/
+Assets/ToolsPack1/
+
 # Visual Studio cache directory
 .vs/
 
@@ -39,18 +42,12 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-Assets/318688__limitsnap-creations__rocket-thrust-effect.wav
-Assets/318688__limitsnap-creations__rocket-thrust-effect.wav.meta
 Assets/3DForge.meta
-Assets/3Skyboxes.meta
 Assets/Dungeon Pack.meta
-Assets/Voxel Assets.meta
-Assets/Voxel Turrets.meta
-Assets/Santa Claus Is Coming to Town.meta
 Assets/Standard Assets.meta
 Assets/PostProcessing.meta
-Assets/Player/Player 1.prefab
-Assets/Player/Player 1.prefab.meta
 Assets/Sci_Fi_Armors_2.meta
 Assets/Prefabs/RedEnemy.prefab.meta
 Assets/Enemy.meta
+Assets/SkySerie Freebie.meta
+Assets/ToolsPack1.meta

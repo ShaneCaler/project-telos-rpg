@@ -11,7 +11,7 @@ public class CameraCollision : MonoBehaviour {
     [SerializeField] Transform offset;
 
     Vector3 dollyDir;
-    bool inCTMview = false;
+    public bool inCTMview = false;
     void Awake()
     {
         distance = transform.localPosition.magnitude;
@@ -37,11 +37,24 @@ public class CameraCollision : MonoBehaviour {
 
     }
 
+    private void CompensateForWalls(Vector3 from, ref Vector3 to)
+    {
+        print("tes2t");
+        Debug.DrawLine(from, to, Color.cyan);
+        RaycastHit wallHit = new RaycastHit();
+        if(Physics.Linecast(from, to, out wallHit))
+        {
+            print("test");
+            Debug.DrawRay(wallHit.point, Vector3.left, Color.red);
+            to = new Vector3(wallHit.point.x, to.y, wallHit.point.z);
+        }
+    }
+
     private void ProcessView(Transform camOffset)
     {
         Vector3 desiredCameraPos = camOffset.TransformPoint(dollyDir * maxDistance);
         RaycastHit hit;
-
+        CompensateForWalls(camOffset.position, ref desiredCameraPos);
         if (Physics.Linecast(camOffset.position, desiredCameraPos, out hit))
         {
             distance = Mathf.Clamp((hit.distance * .5f), minDistance, maxDistance);

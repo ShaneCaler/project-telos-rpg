@@ -11,6 +11,7 @@ public class CameraRaycaster : MonoBehaviour
     [SerializeField] int defaultLayerNumber;
     [SerializeField] int walkableLayerNumber;
     [SerializeField] int enemyLayerNumber;
+
     float maxRaycastDepth = 100f; // Hard coded value
 	int topPriorityLayerLastFrame = -1; // So get ? from start with Default layer terrain
 
@@ -27,7 +28,7 @@ public class CameraRaycaster : MonoBehaviour
 		// Check if pointer is over an interactable UI element
 		if (EventSystem.current.IsPointerOverGameObject ())
 		{
-			NotifyObserersIfLayerChanged (uiLayerNumber);
+			NotifyObserersIfLayerChanged(uiLayerNumber);
 			return; // Stop looking for other objects
 		}
 

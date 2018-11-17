@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1295729711890772
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,6 +196,8 @@ MonoBehaviour:
   smooth: 5
   distance: 0
   offset: {fileID: 0}
+  dollyDir: {x: 0, y: 0, z: 0}
+  inCTMview: 0
 --- !u!114 &114341645456591340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -204,11 +206,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1912319272843680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efca374cb71dfb443b92d1b68ee4ebd9, type: 3}
+  m_Script: {fileID: 11500000, guid: d02853f5d34bd8f429969ac34c466d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerPriorities: 0900000008000000
-  distanceToBackground: 100
+  layerPriorities: 
+  uiLayerNumber: 0
+  defaultLayerNumber: 0
+  walkableLayerNumber: 0
+  enemyLayerNumber: 0
+  testString: new string
 --- !u!114 &114435883818518214
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -240,6 +246,8 @@ MonoBehaviour:
   smooth: 5
   distance: 0
   offset: {fileID: 4140149525027258}
+  dollyDir: {x: 0, y: 0, z: 0}
+  inCTMview: 0
 --- !u!114 &114655688755261440
 MonoBehaviour:
   m_ObjectHideFlags: 1

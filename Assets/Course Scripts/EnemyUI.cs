@@ -25,4 +25,9 @@ public class EnemyUI : MonoBehaviour {
         transform.LookAt(cameraToLookAt.transform);
         // transform.rotation = Quaternion.LookRotation(cameraToLookAt.transform.forward);
     }
+
+    public void SetEnemyTarget()
+    {
+
+    }
 }

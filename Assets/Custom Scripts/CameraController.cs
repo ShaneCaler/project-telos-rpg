@@ -70,7 +70,7 @@ public class CameraController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         SetCameraTarget(target);
-        vOrbitInput = hOrbitInput = zoomInput = hOrbitInput = 0;
+        vOrbitInput = hOrbitInput = zoomInput = 0;
         collision = GetComponent<CollisionHandler>();
         collision.Initialize(Camera.main);
         collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);

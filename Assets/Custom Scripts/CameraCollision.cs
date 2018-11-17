@@ -9,9 +9,9 @@ public class CameraCollision : MonoBehaviour {
     [SerializeField] float smooth = 10f;
     [SerializeField] float distance;
     [SerializeField] Transform offset;
-
-    Vector3 dollyDir;
+    [SerializeField] Vector3 dollyDir;
     public bool inCTMview = false;
+
     void Awake()
     {
         distance = transform.localPosition.magnitude;

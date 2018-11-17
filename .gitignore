@@ -12,6 +12,7 @@ Assets/Player/
 Assets/Prefabs/RedEnemy.prefab
 Assets/SkySerie Freebie/
 Assets/ToolsPack1/
+Assets/NeatWolf/
 
 # Visual Studio cache directory
 .vs/
@@ -51,3 +52,10 @@ Assets/Prefabs/RedEnemy.prefab.meta
 Assets/Enemy.meta
 Assets/SkySerie Freebie.meta
 Assets/ToolsPack1.meta
+Assets/Prefabs/Crystal Projectile.prefab
+Assets/Prefabs/Crystal Projectile.prefab.meta
+Assets/Scenes/test.png
+Assets/Scenes/test.png.meta
+Assets/Scenes/Materials/test.mat
+Assets/Scenes/Materials/test.mat.meta
+Assets/NeatWolf.meta

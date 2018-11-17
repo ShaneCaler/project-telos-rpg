@@ -5,25 +5,26 @@ using UnityStandardAssets.Characters.ThirdPerson;
 [RequireComponent(typeof (ThirdPersonCharacter))]
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float walkMoveStopRadius = 0.2f;
-    [SerializeField] float attackMoveStopRadius = 5f;
     [SerializeField] float rotateVelocity = 100f;
-
-    bool isInDirectMode = true; // false is point-to-click mode
+    [SerializeField] float strafeSpeed = 10f;
+    [SerializeField] float runSpeed = 1f;
+    [SerializeField] const int walkableLayerNumber = 8;
+    [SerializeField] const int enemyLayerNumber = 9;
     ThirdPersonCharacter thirdPersonCharacter;   // A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster;
-    Vector3 currentDestination;
-    Vector3 clickPoint;
+    // Vector3 currentDestination;
+    // Vector3 clickPoint;
     Quaternion targetRotation;
-    float turnInput;
+    float turnInput = 0;
 
     private void Start()
     {
         cameraRaycaster = FindObjectOfType<CameraRaycaster>();
         thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
-        currentDestination = transform.position;
+        // currentDestination = transform.position;
         targetRotation = transform.rotation;
-        turnInput = 0;
+
+        cameraRaycaster.notifyMouseClickObservers += ProcessMouseClick;
     }
 
     public Quaternion GetTargetRotation
@@ -31,8 +32,9 @@ public class PlayerMovement : MonoBehaviour
         get { return targetRotation; }
     }
 
-    private void Update()
+    void FixedUpdate()
     {
+        ProcessDirectMovement();
         Turn();
     }
 
@@ -40,31 +42,30 @@ public class PlayerMovement : MonoBehaviour
     {
         turnInput = Input.GetAxis("Horizontal");
         targetRotation *= Quaternion.AngleAxis(rotateVelocity * turnInput * Time.deltaTime, Vector3.up);
-        transform.rotation = targetRotation;
+        transform.rotation = targetRotation;    
     }
 
-    private void FixedUpdate()
+    void ProcessMouseClick(RaycastHit raycastHit, int layerHit)
     {
-        //if (Input.GetKeyDown(KeyCode.G))
-        //{
-        //    isInDirectMode = !isInDirectMode; // toggle mode
-        //    currentDestination = transform.position;
-        //}
+        switch (layerHit)
+        {
+            case enemyLayerNumber:
+                GameObject enemy = raycastHit.collider.gameObject;
 
-        if (isInDirectMode)
-        {
-            ProcessDirectMovement();
-        }
-        else
-        {
-           // ProcessMouseMovement();
+                break;
+            case walkableLayerNumber:
+                break;
+            default:
+                Debug.LogError("Unknown layer clicked");
+                return;
         }
     }
 
     private void ProcessDirectMovement()
     {
-        float h = Input.GetAxis("Horizontal");
+        float h = Input.GetAxis("Horizontal") * runSpeed * Time.deltaTime;
         float v = Input.GetAxis("Vertical");
+        float strafe = Input.GetAxis("Strafe") * strafeSpeed * Time.deltaTime;
         bool crouch = Input.GetButton("Crouch");
         bool jump = false;
 
@@ -77,68 +78,9 @@ public class PlayerMovement : MonoBehaviour
             jump = true;
         }
 
+        // todo change strafe to A and D, only when right mouse is clicked, otherwise Q and E
+        transform.Translate(strafe, 0f, 0f);
         thirdPersonCharacter.Move(movement, crouch, jump);
-    }
-
-    private void ProcessMouseMovement()
-    {
-        //if (Input.GetMouseButton(0))
-        //{
-        //    clickPoint = cameraRaycaster.hit.point;
-        //    print("Cursor raycast hit " + cameraRaycaster.currentLayerHit);
-        //    switch (cameraRaycaster.currentLayerHit)
-        //    {
-        //        case Layer.Walkable:
-        //            currentDestination = ShortDestination(clickPoint, walkMoveStopRadius);
-        //            break;
-        //        case Layer.Enemy:
-        //            currentDestination = ShortDestination(clickPoint, attackMoveStopRadius);
-        //            break;
-        //        default:
-        //            print("shouldnt be here");
-        //            return;
-        //    }
-        //}
-
-        //WalkToDestination();
-    }
-
-    private float distanceToTargetAtPlayerLevel(Vector3 target)
-    {
-        target.y = transform.position.y;
-
-        return Vector3.Distance(transform.position, target);
-    }
-
-    private void WalkToDestination()
-    {
-        var playerToClickPoint = currentDestination - transform.position;
-        if (playerToClickPoint.magnitude >= walkMoveStopRadius)
-        {
-            thirdPersonCharacter.Move(playerToClickPoint, false, false);
-        }
-        else
-        {
-            thirdPersonCharacter.Move(Vector3.zero, false, false);
-        }
-    }
-
-    Vector3 ShortDestination(Vector3 destination, float shortening)
-    {
-        Vector3 reductionVector = (destination - transform.position).normalized * shortening;
-        return destination - reductionVector;
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.black;
-        Gizmos.DrawLine(transform.position, currentDestination);
-        Gizmos.DrawSphere(currentDestination, 0.1f);
-        Gizmos.DrawSphere(clickPoint, .15f);
-
-        // draw attach sphere
-        Gizmos.color = new Color(255f, 0f, 0f, .5f);
-        Gizmos.DrawWireSphere(transform.position, attackMoveStopRadius);
     }
 }
 

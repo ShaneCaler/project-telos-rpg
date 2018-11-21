@@ -77,7 +77,6 @@ public class CameraController : MonoBehaviour {
         collision.UpdateCameraClipPoints(destination, transform.rotation, ref collision.desireCameraClipPoints); // camera position is desination here
         MoveToTarget();
 
-
         previousMousePos = currentMousePos = Input.mousePosition;
     }
 
@@ -163,14 +162,14 @@ public class CameraController : MonoBehaviour {
         targetPos = target.position + Vector3.up * position.targetPosOffset.y + Vector3.forward * position.targetPosOffset.z + transform.TransformDirection(Vector3.right * position.targetPosOffset.x); ;
         destination = Quaternion.Euler(orbit.xRotation, orbit.yRotation + target.eulerAngles.y, 0) * -Vector3.forward * position.distanceFromTarget;
         destination += targetPos;
-
+        transform.position = destination;
         if (collision.colliding)
         {
             adjustedDestination = Quaternion.Euler(orbit.xRotation, orbit.yRotation + target.eulerAngles.y, 0) * Vector3.forward * position.adjustmentDistance;
             adjustedDestination += targetPos;
             if (position.smoothFollow)
             {
-                // use smooth damn function
+                // use smooth damp function
                 transform.position = Vector3.SmoothDamp(transform.position, adjustedDestination, ref camVel, position.smooth);
             }
             else
@@ -182,9 +181,8 @@ public class CameraController : MonoBehaviour {
         {
             if (position.smoothFollow)
             {
-                // use smooth damn function
+                // use smooth damp function
                 transform.position = Vector3.SmoothDamp(transform.position, destination, ref camVel, position.smooth);
-
             }
             else
             {
@@ -197,7 +195,9 @@ public class CameraController : MonoBehaviour {
     {
         Quaternion targetRotation = Quaternion.LookRotation(targetPos - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, position.lookSmooth * Time.deltaTime);
-        player.transform.rotation = transform.rotation;
+
+        player.transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+
     }
 
     void OrbitTarget()

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-    public float projectileSpeed;
     public float damageCaused { get; set; }
+    [HideInInspector] public float projectileSpeed; 
     Player player;
 
 
@@ -20,14 +20,14 @@ public class Projectile : MonoBehaviour {
         //gameObject.transform.position = Vector3.Lerp(transform.position, adjustedTransform , projectileSpeed);
         //gameObject.GetComponent<Rigidbody>().velocity = (player.transform.position - transform.position).normalized * projectileSpeed;
     }
-    
-    void OnTriggerEnter(Collider other)
+
+    void OnCollisionEnter(Collider other)
     {
         Component damageableComponent = other.gameObject.GetComponent(typeof(IDamageable));
         if (damageableComponent)
         {
             (damageableComponent as IDamageable).TakeDamage(damageCaused);
         }
-        Destroy(gameObject, 0.3f);
+        Destroy(gameObject);
     }
 }

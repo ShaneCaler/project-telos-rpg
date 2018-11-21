@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour, IDamageable {
 
     [SerializeField] float damagePerShot = 8f;
     [SerializeField] float secondsBetweenShots = 1f;
+    [SerializeField] Vector3 aimOffset = new Vector3(0, 1.7f, 0f);
     [SerializeField] GameObject projectileToUse;
     [SerializeField] GameObject projectileSocket;
 
@@ -23,7 +24,8 @@ public class Enemy : MonoBehaviour, IDamageable {
     bool isAttacking = false;
     GameObject player = null;
     AICharacterControl aiCharacter = null;
-    float currentHP = 100f;
+    Animator anim;
+    float currentHP;
 
     public float healthAsPercentage
     {
@@ -36,12 +38,15 @@ public class Enemy : MonoBehaviour, IDamageable {
     public void TakeDamage(float damage)
     { 
         currentHP = Mathf.Clamp(currentHP - damage, 0f, maxHP);
+        if (currentHP <= 0) { Destroy(gameObject);  }
     }
 
     // Use this for initialization
     void Start () {
         aiCharacter = GetComponent<AICharacterControl>();
+        anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+        currentHP = maxHP;
     }
 	
     public EnemyType GetEnemyLevel()
@@ -88,12 +93,11 @@ public class Enemy : MonoBehaviour, IDamageable {
     void SpawnProjectile()
     {
         isAttacking = true;
-        var adjustedPlayerTransform = new Vector3(player.transform.position.x, player.transform.position.y + 1.7f, player.transform.position.z);
         var projectile = Instantiate(projectileToUse, projectileSocket.transform.position, Quaternion.identity);
         var projectileComponent = projectile.GetComponent<Projectile>();
         projectileComponent.damageCaused = damagePerShot;
 
-        Vector3 unitVectorToPlayer = (adjustedPlayerTransform - projectileSocket.transform.position).normalized;
+        Vector3 unitVectorToPlayer = (player.transform.position + aimOffset - projectileSocket.transform.position).normalized;
         projectile.GetComponent<Rigidbody>().velocity = unitVectorToPlayer * projectileComponent.projectileSpeed;
     }
 

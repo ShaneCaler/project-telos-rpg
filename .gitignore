@@ -7,12 +7,14 @@ Assets/PostProcessing/
 Assets/3DForge/
 Assets/Standard Assets/
 Assets/PBR_Customized_Soldier/
-Assets/Enemy/
-Assets/Player/
-Assets/Prefabs/RedEnemy.prefab
+Assets/_Source/Enemy/
+Assets/_Source/Player/
+Assets/_Source/Prefabs/
+Assets/_Source/Scenes/CombatSandbox/
 Assets/SkySerie Freebie/
 Assets/ToolsPack1/
 Assets/NeatWolf/
+Assets/True_Horror_Creatures/
 
 # Visual Studio cache directory
 .vs/
@@ -52,10 +54,8 @@ Assets/Prefabs/RedEnemy.prefab.meta
 Assets/Enemy.meta
 Assets/SkySerie Freebie.meta
 Assets/ToolsPack1.meta
-Assets/Prefabs/Crystal Projectile.prefab
-Assets/Prefabs/Crystal Projectile.prefab.meta
-Assets/Scenes/test.png
-Assets/Scenes/test.png.meta
-Assets/Scenes/Materials/test.mat
-Assets/Scenes/Materials/test.mat.meta
 Assets/NeatWolf.meta
+Assets/True_Horror_Creatures.meta
+Assets/_Source/Enemy.meta
+Assets/_Source/Player.meta
+Assets/_Source/Prefabs.meta
